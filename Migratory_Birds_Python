@@ -1,0 +1,4 @@
+def migratoryBirds(arr):
+    from collections import Counter
+    count = Counter(arr).most_common()
+    return sorted([elt for elt in count if elt[1] == count[0][1]])[0][0]
