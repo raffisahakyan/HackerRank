@@ -1,25 +1,24 @@
-#!/bin/python3
-
-import math
-import os
-import random
-import re
 import sys
 
-from collections import Counter
-from functools import reduce
-from operator import iconcat
+inputString = sys.stdin.read()
 
-def getSentences(text):
-    return text.lower().split('.')
+inputString = inputString.lower()
 
-def getTrigrams(sentence):
-    words = sentence.split()
-    return [" ".join(words[i:i+3]) for i in range(len(words)-2)]
+arr = [x.split() for x in inputString.split('.')]
 
+consolidated = {}
 
-if __name__ == '__main__':
-    s = input()
+for i in arr:
+  for index,value in enumerate(i):
+    if index+2 < len(i):
+      if ' '.join(i[index:index+3]) not in consolidated.keys():
+        consolidated[' '.join(i[index:index+3])] = 1
+      else:
+        consolidated[' '.join(i[index:index+3])] += 1
 
-trigrams = Counter(reduce(iconcat, map(getTrigrams, getSentences(s)), []))
-print(max(trigrams, key=trigrams.get))
+maxKey = max(consolidated.keys(), key=(lambda k: consolidated[k]))
+
+if consolidated[maxKey] == 1:
+  print(' '.join(arr[0][0:3]))
+else:
+  print(maxKey)
